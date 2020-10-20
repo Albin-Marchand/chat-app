@@ -1,25 +1,43 @@
 import React from 'react';
-import './Contact.css';
+import './contact.css';
+import PropTypes from 'prop-types';
 
-const isOnline = true;
+class Contact extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      online: this.props.isConnected,
+    };
+  }
 
-function Contact() {
-  return (
-    <div className="Contact">
-      <img src="https://randomuser.me/api/portraits/women/64.jpg" class="avatar"></img>
-
-      <div>
-        <div class="name">
-          <p>Katie Dunn</p>
-        </div>
-        <div className="status">
-          <div className={isOnline ? "status-online" : "status-offline"}></div>
-          <p className="status-text">{isOnline ? "Online" : "Offline"}</p>
+  render() {
+    return (
+      <div className="Contact">
+        <img className="avatar" src={this.props.image} alt="avatar" />
+        <div>
+          <h4 className="name">{this.props.name}</h4>
+          <div className="status">
+            <span className={this.state.online ? "status-online" : "status-offline"}
+              onClick={event => {
+                const newStatus = !this.state.online;
+                this.setState({ online: newStatus });
+              }}></span>
+            <p className="status-text"
+              onClick={event => {
+                const newStatus = !this.state.online;
+                this.setState({ online: newStatus });
+              }}>{this.state.online ? "online" : "offline"}</p>
+          </div>
         </div>
       </div>
-
-    </div>
-  );
+    );
+  };
 }
+
+Contact.propTypes = {
+  name: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  isConnected: PropTypes.bool.isRequired,
+};
 
 export default Contact;
